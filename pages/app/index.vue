@@ -5,5 +5,6 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: "login",
+  middleware: ["unauth"],
 });
 </script>

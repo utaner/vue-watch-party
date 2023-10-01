@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
     const token = signToken({ uuid: user._id }, "deneme", "30d");
     
     setCookie(event, "auth", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "none",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
