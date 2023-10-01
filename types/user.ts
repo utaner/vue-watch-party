@@ -3,3 +3,8 @@ export interface UserSchema {
     password: string
   
 }
+
+export interface SignInRequestBody {
+    email: string
+    password: string
+}

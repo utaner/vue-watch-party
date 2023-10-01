@@ -18,11 +18,6 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     MONGO_URI: process.env.MONGO_URI,
-    TOKEN_SECRET: process.env.TOKEN_SECRET,
-    ACCESS_TOKEN: process.env.ACCESS_TOKEN,
-    ELASTIC_API: process.env.ELASTIC_API,
-    APP_URL: process.env.APP_URL,
-    EMAIL: process.env.EMAIL,
   },
   
  

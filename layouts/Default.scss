@@ -57,12 +57,13 @@ body {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
   font-family: "Poppins", sans-serif;
-  background: url("assets/image/bg.jpg") center / cover, rgb(26, 26, 26);
+  background: url("assets/image/bg.gif") center / cover, rgb(26, 26, 26);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 main {
   background: linear-gradient(to bottom, #000c 0%, #000a 50%, #0008 100%);
+  min-height: 100vh;
 }
 
 a {
@@ -107,15 +108,12 @@ h1, h2, h3, h4, h5, h6, p, a, span {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.cta {
-  --tw-bg-opacity: 1;
-  background-color: rgb(167 133 254 / var(--tw-bg-opacity));
-  font-weight: 700;
+.light {
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-  font-size: 1.125rem;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
-
 .hero {
   height: 700px;
   display: flex;

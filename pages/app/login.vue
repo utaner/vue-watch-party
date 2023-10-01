@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input v-model="user.username" type="text" class="input" placeholder="Enter Username" name="uname" required/>
-    <input v-model="user.password" type="password" class="input" placeholder="Enter Password" name="psw" required/>
+    <input v-model="user.email" type="text" class="input" placeholder="Enter Email" name="email" required/>
+    <input v-model="user.password" type="password" class="input" placeholder="Enter Password" name="password" required/>
     <button @click.prevent="login" class="button">Login</button>
   </div>
 </template>
@@ -13,7 +13,7 @@
     layout: "login",
   });
   const user = ref({
-    username: "",
+    email: "",
     password: "",
   });
 

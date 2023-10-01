@@ -8,12 +8,12 @@ export default defineEventHandler(async (event) => {
       return createError({ statusCode: 400, statusMessage: "Bad request." });
     }
     const user = await userModel
-      .findOne({ username: body.username })
+      .findOne({ email: body.email })
       .select("+password");
     if (!user) {
       return createError({
         statusCode: 401,
-        statusMessage: "Invalid username or password",
+        statusMessage: "Invalid email or password",
       });
     }
 
@@ -24,19 +24,24 @@ export default defineEventHandler(async (event) => {
     if (!isPasswordCorrect) {
       return createError({
         statusCode: 401,
-        statusMessage: "Invalid username or password",
+        statusMessage: "Invalid email or password",
       });
     }
+    
     const token = signToken({ uuid: user._id }, "deneme", "30d");
     
-    setCookie(event, "authorization", token, {
+    setCookie(event, "auth", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
 
+    
+
     return 200;
+
+ 
   } catch (error) {
     return createError({
       statusCode: 500,

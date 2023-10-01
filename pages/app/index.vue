@@ -1,9 +1,9 @@
 <template>
-
   <div>Deneme</div>
-
 </template>
 
-<script setup>
-
+<script lang="ts" setup>
+definePageMeta({
+  layout: "login",
+});
 </script>
