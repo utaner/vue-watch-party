@@ -10,22 +10,19 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "@vueuse/core": "^9.6.0",
     "@vueuse/nuxt": "^9.6.0",
     "nuxt": "^3.7.4",
-    "nuxt-vite": "^0.3.5",
-    "@types/jsonwebtoken": "^9.0.2"
-
+    "nuxt-vite": "^0.3.5"
   },
   "dependencies": {
-    
     "@pinia/nuxt": "^0.4.11",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.5.3",
     "sass": "^1.68.0",
     "socket.io": "^4.5.4",
-    "jsonwebtoken": "^9.0.1",
-    "socket.io-client": "^4.5.4",
-    "bcrypt": "^5.1.0"
-
+    "socket.io-client": "^4.5.4"
   }
 }

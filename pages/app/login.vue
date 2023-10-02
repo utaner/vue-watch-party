@@ -1,8 +1,21 @@
 <template>
+  <div class="loginHeader">
+    <h3>Log in</h3>
+    <h4>Welcome back!</h4>
+  </div>
   <div>
-    <input v-model="user.email" type="text" class="input" placeholder="Enter Email" name="email" required />
-    <input v-model="user.password" type="password" class="input" placeholder="Enter Password" name="password" required />
-    <button @click.prevent="login" class="button">Login</button>
+    <div class="input-grp">
+      <input v-model="user.email" type="text" class="input" placeholder="Enter Email" name="email" required />
+    </div>
+    <div class="input-grp">
+      <input v-model="user.password" type="password" class="input" placeholder="Enter Password" name="password" required />
+    </div>
+    <div class="bottom-btns">
+      <a href="/app/password-recovery" class="forgotPasswordLink">Forgot password? </a>
+      <button @click.prevent="login" type="button">
+        <span tabindex="-1">Log in</span>
+      </button>
+    </div>
   </div>
 </template>
 <style scoped lang="css"></style>
@@ -28,6 +41,6 @@ const login = async () => {
     .catch((err: { data: NuxtError }) => {
       console.log(err);
     })
-    .finally(() => { });
+    .finally(() => {});
 };
 </script>
