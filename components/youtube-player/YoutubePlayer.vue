@@ -16,6 +16,7 @@ export default {
       youtubeCallbackName: "onYouTubeIframeAPIReady",
       youtubeExistsFlag: "$isYoutubeFrameAPIReady",
       time: 0,
+      YTPLayer: null,
     };
   },
   computed: {
@@ -29,13 +30,14 @@ export default {
       }
 
       return this.videoId;
-    },
+    }
   },
   watch: {
     time() {
       console.log(this.time);
     },
   },
+  emits:['onPlay', 'onPause', 'onStop', 'onEnd'],
   mounted() {
     if (!this.hasYoutubeFrameAPI()) {
       this.injectYoutubeFrameAPI();
@@ -61,7 +63,17 @@ export default {
     onPlayerStateChange(evt) {
       if (evt.data === YT.PlayerState.PLAYING) {
         this.time = this.YTPLayer.getCurrentTime();
+        this.$emit('onPlay', this.time);
         
+      }else if (evt.data === YT.PlayerState.PAUSED) {
+        this.time = this.YTPLayer.getCurrentTime();
+        this.$emit('onPause', this.time);
+      }else if (evt.data === YT.PlayerState.ENDED) {
+        this.time = this.YTPLayer.getCurrentTime();
+        this.$emit('onEnd', this.time);
+      }else if (evt.data === YT.PlayerState.CUED) {
+        this.time = this.YTPLayer.getCurrentTime();
+        this.$emit('onStop', this.time);
       }
     },
     whenYoutubeAPIReady() {
