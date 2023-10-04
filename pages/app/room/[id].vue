@@ -1,14 +1,20 @@
 <template>
-  <div class="videoContainer" v-if="room.isReady">
-    <div class="vmContainer">
-      <YoutubePlayer videoId="79XQBAouHjU" @onPlay="onPlay" @onPause="onPause" @onStop="onStop" @onEnd="onEnd" ref="player" />
-      <button @click="testPlay">Play</button>
+  <div class="roomContainer">
+    <div class="videoContainer" v-if="room.isReady">
+      <div class="vmContainer">
+        <YoutubePlayer v-if="room.openYoutube" videoId="79XQBAouHjU" @onPlay="onPlay" @onPause="onPause" @onStop="onStop" @onEnd="onEnd" ref="player" />
+      </div>
+    </div>
+    <div class="chat">
+      <ChatVue v-for="(msg, index) in msgs" :key="index" :msg="msg" :prev="[index == 0 ? null : msgs[index - 1]]"></ChatVue>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import YoutubePlayer from "@/components/youtube-player/YoutubePlayer.vue";
+import ChatVue from "~/components/chat/Chat.vue";
+
 import { ref, getCurrentInstance } from "vue";
 
 const instance = getCurrentInstance();
@@ -26,8 +32,18 @@ const room = ref({
   users: [],
   isReady: false,
   videoTime: 0,
+  openYoutube: false,
 });
 
+const msgs = ref([
+  {
+    from: {
+      name: "DevplaCalledM2e",
+      avatar: "https://picsum.photos/200",
+    },
+    msg: "Hello",
+  },
+]);
 
 const joinRoom = () => {
   let token = useCookie("auth").value;
@@ -72,6 +88,5 @@ $io.on("pause", (time: any) => {
   instance.refs.player.YTPLayer.seekTo(time);
   instance.refs.player.YTPLayer.pauseVideo();
   room.value.videoTime = time;
-
 });
 </script>
