@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     socket.join(roomId);
     rooms[roomId].users[socket.id] = { username: user.username };
     socket.to(roomId).emit("userJoined", user.username);
-    socket.emit("joinedRoom", rooms[roomId].users);
+    socket.emit("joinedRoom", {users: rooms[roomId].users, player: rooms[roomId].player});
     console.log(rooms);
     myRoomId = roomId;
   });
@@ -56,6 +56,41 @@ io.on("connection", (socket) => {
     rooms[roomId].player.time = time;
     socket.to(roomId).emit("pause", time);
   });
+
+  socket.on("youtubeSearch", (data) => {
+    let term = data.q;
+
+    //term is url check
+    if(term.includes("https://www.youtube.com/watch?v=")){
+      term = term.split("https://www.youtube.com/watch?v=")[1];
+    }
+
+    
+
+    let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&type=video&q=${term}&key=AIzaSyCD32ExxtF5D59PTi3kTjkr6_een9lt328`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => {
+        socket.emit("youtubeSearch", res.items);
+      });
+  });
+
+  socket.on("message", (data) => {
+    const message = data.message;
+    const roomId = myRoomId;
+    //all user send newMessage
+    socket.to(roomId).emit("newMessage", { message: message, username: rooms[roomId].users[socket.id].username });
+    socket.emit("newMessage", { message: message, username: rooms[roomId].users[socket.id].username });
+
+  });
+
+  socket.on("openYoutube", (data) => {
+    const videoID = data.videoID;
+    const roomId = myRoomId;
+    rooms[roomId].player.videoID = videoID;
+    socket.to(roomId).emit("openYoutube", videoID);
+  });
+
   socket.on("disconnect", () => {
     if (myRoomId) {
       socket.to(myRoomId).emit("userLeft", rooms[myRoomId].users[socket.id]);
