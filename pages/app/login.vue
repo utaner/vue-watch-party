@@ -16,6 +16,11 @@
         <span tabindex="-1">Log in</span>
       </button>
     </div>
+    <div>
+      <p class="loginFooter">
+       Hesabın yok mu? <a href="/app/sign-up">Kayıt Ol</a>
+      </p>
+    </div>
   </div>
 </template>
 <style scoped lang="css"></style>

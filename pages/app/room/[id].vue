@@ -32,6 +32,11 @@
         </div>
         <YoutubePlayer v-if="room.openYoutube" :videoId="room.videoID" @onPlay="onPlay" @onPause="onPause" @onStop="onStop" @onEnd="onEnd" ref="player" />
       </div>
+      <div class="hub">
+        <div class="activeMembers">
+          
+        </div>
+      </div>
     </div>
     <div class="chat">
       <ChatVue :messages="msgs" @onSendMessage="sendMessage" />
@@ -66,14 +71,7 @@ const room = ref({
 });
 
 const msgs = ref([
-  {
-    from: {
-      name: "DevplaCalledM2e",
-      avatar: "https://picsum.photos/200",
-    },
-    message: "Hello",
-    type:"first"
-  },
+ 
 ]);
 
 const sendMessage = (message: string) => {
@@ -102,17 +100,19 @@ const openYoutube = (videoID: string) => {
 const joinRoom = () => {
   let token = useCookie("auth").value;
   let roomId = useRoute().params.id;
-  $io.emit("joinRoom", { token, roomId });
+  $io.emit("joinRoom", { token: token, roomId: roomId });
 };
 
 $io.on("joinedRoom", (data: any) => {
   let users = data.users;
   let player = data.player;
+  let chat = data.chat;
   room.value.users = users;
   room.value.isReady = true;
-
+  room.value.videoTime = player.videoTime;
+  room.value.videoID = player.videoID;
+  msgs.value = chat;
   if (player.videoID != "") {
-    room.value.videoID = player.videoID;
     room.value.openYoutube = true;
   }
 });

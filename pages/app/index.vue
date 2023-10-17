@@ -1,8 +1,10 @@
 <template>
   <div class="roomList">
     <div class="room" @click="createRoom">
-      <div class="roomName">Room 1</div>
-      <div class="roomUsers">Users: 1</div>
+      <img src="https://hyperbeam.com/app/img/banner_2.8bc3033b.png" width="16" height="9" />
+      <div class="bottomInfo">
+        <div class="roomName">Yeni Oda</div>
+      </div>
     </div>
   </div>
 </template>

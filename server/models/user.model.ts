@@ -5,15 +5,25 @@ const userSchema = new mongoose.Schema<UserSchema>(
   {
     username: {
       type: String,
-      index: {
-        unique: true,
-      },
+      select:true
     },
     password: {
       type: String,
-      required: [true, "Password is required."],
-      select: false,
-      minlength: [10, "Password is too short."],
+      required: [true, "Please provide a password."],
+      trim: true,
+    
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide an email."],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Please provide a valid email."],
+    },
+    token: {
+      type: String,
+      select: true,
     },
   },
   { timestamps: true }

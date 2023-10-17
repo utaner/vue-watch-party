@@ -17,4 +17,5 @@
 <script>
 // import navbar.scss
 import "@/components/navbar/Navbar.scss";
+
 </script>

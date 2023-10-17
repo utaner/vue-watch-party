@@ -1,0 +1,79 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 7777;
+  background-color: rgba(20, 20, 20, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .modalContainer {
+    color: #fff;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    min-width: 500px;
+    min-height: 400px;
+    background: #121212;
+    border-radius: 10px;
+    .closeButton {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 200;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background: none !important;
+      cursor: pointer;
+      border: 0;
+      svg {
+        fill: #6b6b6b;
+      }
+    }
+  }
+}
+
+.modalContent {
+  padding: 30px;
+  h3 {
+    color: hsla(0, 0%, 100%, 0.66);
+  }
+}
+
+.profileContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    margin-left: 20px;
+    width: 320px;
+  }
+  .otherButton {
+    border: 0;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 30px;
+      height: 30px;
+      path {
+        fill: hsla(0,0%,100%,0.66);
+      }
+    }
+    &:hover{
+        background-color: hsla(0,0%,100%,0.08);
+    }
+  }
+}

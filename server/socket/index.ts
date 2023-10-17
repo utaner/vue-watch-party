@@ -9,37 +9,34 @@ const io = new Server(3001, {
   },
 });
 
-const rooms: { [key: string]: { users: { [key: string]: { username: string } }; player: { videoID: string; time: number } } } = {};
+const rooms: {
+  [key: string]: { users: { [key: string]: { username: string } }; player: { videoID: string; time: number }; chat: { from: { name: string; avatar: string }; message: string; type: string }[] };
+} = {};
 
 io.on("connection", (socket) => {
   let myRoomId: string;
 
-  socket.on("createRoom", (token) => {
-    const user: any = userModel.findOne({ token: token });
+  socket.on("createRoom", async (token) => {
+    const user: any = await userModel.findOne({ token: token });
     if (!user) {
       return;
     }
     const roomId = Math.random().toString(36).substr(2, 9);
-    rooms[roomId] = { users: {}, player: { videoID: "", time: 0 } };
+    rooms[roomId] = { users: {}, player: { videoID: "", time: 0 }, chat: [] };
     socket.emit("roomCreated", roomId);
   });
 
-  socket.on("joinRoom", (data) => {
-    const { roomId, token } = data;
-    const user: any = userModel.findOne({ token: token });
-    if (!user) {
+  socket.on("joinRoom", async (data) => {
+    const roomId = data.roomId;
+    const token = data.token;
+    const user: any = await userModel.findOne({ token: token });
+    if (!user || !roomId || !rooms[roomId]) {
       return;
     }
-
-    if (!rooms[roomId]) {
-      return;
-    }
-
     socket.join(roomId);
     rooms[roomId].users[socket.id] = { username: user.username };
     socket.to(roomId).emit("userJoined", user.username);
-    socket.emit("joinedRoom", {users: rooms[roomId].users, player: rooms[roomId].player});
-    console.log(rooms);
+    socket.emit("joinedRoom", { users: rooms[roomId].users, player: rooms[roomId].player, chat: rooms[roomId].chat });
     myRoomId = roomId;
   });
 
@@ -61,11 +58,9 @@ io.on("connection", (socket) => {
     let term = data.q;
 
     //term is url check
-    if(term.includes("https://www.youtube.com/watch?v=")){
+    if (term.includes("https://www.youtube.com/watch?v=")) {
       term = term.split("https://www.youtube.com/watch?v=")[1];
     }
-
-    
 
     let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&type=video&q=${term}&key=AIzaSyCD32ExxtF5D59PTi3kTjkr6_een9lt328`;
     fetch(url)
@@ -78,10 +73,20 @@ io.on("connection", (socket) => {
   socket.on("message", (data) => {
     const message = data.message;
     const roomId = myRoomId;
-    //all user send newMessage
-    socket.to(roomId).emit("newMessage", { message: message, username: rooms[roomId].users[socket.id].username });
-    socket.emit("newMessage", { message: message, username: rooms[roomId].users[socket.id].username });
+    let getLastMessage = rooms[roomId].chat[rooms[roomId].chat.length - 1];
 
+    let getType = getLastMessage && getLastMessage.from.name === rooms[roomId].users[socket.id].username ? "continue" : "start";
+    let messageData = {
+      from: {
+        name: rooms[roomId].users[socket.id].username,
+        avatar: "https://picsum.photos/200?random=" + Math.random(),
+      },
+      message: message,
+      type: getType == null ? "start" : getType,
+    };
+    rooms[roomId].chat.push(messageData);
+    socket.to(roomId).emit("newMessage", messageData);
+    socket.emit("newMessage", messageData);
   });
 
   socket.on("openYoutube", (data) => {

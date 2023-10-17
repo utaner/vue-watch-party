@@ -6,14 +6,14 @@
           <div>
 
             <img
-              alt="Taner"
+              alt="{{msg.from.name}}"
               :src="msg.from.avatar"
               class="userPicture"
-              v-if="msg.type === 'first'"
+              v-if="msg.type === 'start'"
             />
-            <div class="usernameContainer" v-if="msg.type === 'first'">
+            <div class="usernameContainer" v-if="msg.type === 'start'">
               <span class="time">17:00</span>
-              <h3 class="username">Taner</h3>
+              <h3 class="username">{{msg.from.name}}</h3>
             </div>
 
             <div class="messageContent">
@@ -44,6 +44,10 @@ export default {
       message: "",
       
     };
+  },
+  updated() {
+    const messageList = document.querySelector(".messageList");
+    messageList.scrollTop = messageList.scrollHeight;
   },
   emits: ["onSendMessage"],
   methods: {
@@ -85,7 +89,7 @@ export default {
   font-size: 14px;
 }
 
-.chat__first {
+.chat__start {
   margin-top: 2rem;
 }
 
