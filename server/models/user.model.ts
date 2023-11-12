@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema<UserSchema>(
       type: String,
       select: true,
     },
+    profileIcon: {
+      type: String,
+      select: true,
+    },
   },
   { timestamps: true }
 );

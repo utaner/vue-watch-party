@@ -10,11 +10,23 @@ const io = new Server(3001, {
 });
 
 const rooms: {
-  [key: string]: { users: { [key: string]: { username: string } }; player: { videoID: string; time: number }; chat: { from: { name: string; avatar: string }; message: string; type: string }[] };
+  [key: string]: {
+    users: { [key: string]: { _id: string, username: string, avatar: string, socketID: string } };
+    player: { videoID: string; time: number };
+    chat: {
+      from: {
+        name: string; avatar: string
+      };
+      message: string;
+      type: string,
+      date: Date
+    }[]
+  };
 } = {};
 
 io.on("connection", (socket) => {
   let myRoomId: string;
+  let myUserID: string;
 
   socket.on("createRoom", async (token) => {
     const user: any = await userModel.findOne({ token: token });
@@ -30,14 +42,28 @@ io.on("connection", (socket) => {
     const roomId = data.roomId;
     const token = data.token;
     const user: any = await userModel.findOne({ token: token });
-    if (!user || !roomId || !rooms[roomId]) {
+    if (!user) {
       return;
     }
+    if (!roomId || !rooms[roomId]) {
+      console.log("room not found");
+      socket.emit("notFoundRoom");
+
+    }
+
     socket.join(roomId);
-    rooms[roomId].users[socket.id] = { username: user.username };
-    socket.to(roomId).emit("userJoined", user.username);
+
+    rooms[roomId].users[user._id] = {
+      _id: user._id,
+      username: user.username,
+      avatar: user.profileIcon,
+      socketID: socket.id,
+    };
+
+    socket.to(roomId).emit("userJoined", { user: rooms[roomId].users[user._id] });
     socket.emit("joinedRoom", { users: rooms[roomId].users, player: rooms[roomId].player, chat: rooms[roomId].chat });
     myRoomId = roomId;
+    myUserID = user._id;
   });
 
   socket.on("play", (data) => {
@@ -70,21 +96,24 @@ io.on("connection", (socket) => {
       });
   });
 
-  socket.on("message", (data) => {
+  socket.on("message", async (data) => {
     const message = data.message;
     const roomId = myRoomId;
     let getLastMessage = rooms[roomId].chat[rooms[roomId].chat.length - 1];
 
-    let getType = getLastMessage && getLastMessage.from.name === rooms[roomId].users[socket.id].username ? "continue" : "start";
+    let getType = getLastMessage && getLastMessage.from.name === rooms[roomId].users[myUserID].username ? "continue" : "start";
+    const getUser = await userModel.findOne({ _id: rooms[roomId].users[myUserID]._id });
     let messageData = {
       from: {
-        name: rooms[roomId].users[socket.id].username,
-        avatar: "https://picsum.photos/200?random=" + Math.random(),
+        name: getUser.username,
+        avatar: getUser.profileIcon,
       },
       message: message,
       type: getType == null ? "start" : getType,
+      date: new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })
     };
     rooms[roomId].chat.push(messageData);
+    //socket emit newMessage
     socket.to(roomId).emit("newMessage", messageData);
     socket.emit("newMessage", messageData);
   });
@@ -93,13 +122,38 @@ io.on("connection", (socket) => {
     const videoID = data.videoID;
     const roomId = myRoomId;
     rooms[roomId].player.videoID = videoID;
-    socket.to(roomId).emit("openYoutube", videoID);
+    socket.to(roomId).emit("openYoutube", { videoID: videoID, time: 0 });
+    
+
+  });
+
+  socket.on("getTimeUser", (data) => {
+
+    const userID = data.userID;
+    const roomId = myRoomId;
+    const socketID = rooms[roomId].users[userID].socketID;
+    console.log(rooms[roomId]);
+    console.log(socketID);
+    //oda içerisindeki socket id ye gönder
+    //getTimeRequest
+    io.to(socketID).emit("getTimeRequest", { userID: myUserID });
+  });
+
+  socket.on("sendTimeUser", (data) => {
+    console.log(data);
+    const userID = data.userID;
+    const time = data.time;
+    const roomId = myRoomId;
+    const socketID = rooms[roomId].users[userID].socketID;
+    //oda içerisindeki socket id ye gönder
+    //getTimeResponse
+    io.to(socketID).emit("getTimeResponse", { time: time });
   });
 
   socket.on("disconnect", () => {
     if (myRoomId) {
-      socket.to(myRoomId).emit("userLeft", rooms[myRoomId].users[socket.id]);
-      delete rooms[myRoomId].users[socket.id];
+      socket.to(myRoomId).emit("userLeft", rooms[myRoomId].users[myUserID]);
+      delete rooms[myRoomId].users[myUserID];
       console.log(rooms);
     }
   });

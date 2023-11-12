@@ -5,23 +5,18 @@
         <div class="message" v-for="msg in messages" :key="msg.id">
           <div>
 
-            <img
-              alt="{{msg.from.name}}"
-              :src="msg.from.avatar"
-              class="userPicture"
-              v-if="msg.type === 'start'"
-            />
+            <img alt="{{msg.from.name}}" :src="'/_nuxt/public/assets/image/profile/' + msg.from.avatar + '.jpg'" class="userPicture" v-if="msg.type === 'start'" />
             <div class="usernameContainer" v-if="msg.type === 'start'">
-              <span class="time">17:00</span>
-              <h3 class="username">{{msg.from.name}}</h3>
+              <span class="time">{{ msg.date }}</span>
+              <h3 class="username">{{ msg.from.name }}</h3>
             </div>
 
             <div class="messageContent">
-              <div class="text">{{ msg.message }}</div> 
+              <div class="text">{{ msg.message }}</div>
             </div>
           </div>
         </div>
-       
+
       </div>
       <div class="messageInput">
         <textarea placeholder="Mesajınızı yazın" v-model="message" @keydown.enter.prevent="sendMessage"></textarea>
@@ -31,6 +26,8 @@
 </template>
 
 <script>
+import "@/components/chat/Chat.scss";
+
 export default {
   name: "chat",
   props: {
@@ -42,14 +39,14 @@ export default {
   data() {
     return {
       message: "",
-      
+
+
     };
   },
   updated() {
     const messageList = document.querySelector(".messageList");
     messageList.scrollTop = messageList.scrollHeight;
   },
-  emits: ["onSendMessage"],
   methods: {
     sendMessage(e) {
       e.preventDefault();
@@ -59,10 +56,11 @@ export default {
         return false;
       }
       if (e.keyCode === 13) {
-        this.$emit("onSendMessage", this.message);
+
+        this.$socket.emit("message", { message: this.message });
         this.message = "";
 
-        
+
       }
     },
   },

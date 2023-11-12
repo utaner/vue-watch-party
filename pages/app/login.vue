@@ -1,27 +1,29 @@
-<template>
+<template class="asd">
   <div class="loginHeader">
-    <h3>Log in</h3>
-    <h4>Welcome back!</h4>
+    <h3>Giriş Yap</h3>
+    <h4>Sanal sinemaya hoş geldin!</h4>
+    <p id="errorText" class="error"></p>
   </div>
-  <div>
+  <form @submit.prevent="login">
     <div class="input-grp">
-      <input v-model="user.email" type="text" class="input" placeholder="Enter Email" name="email" required />
+      <input v-model="user.email" type="text" class="input" placeholder="E-posta giriniz." name="email" required />
     </div>
     <div class="input-grp">
-      <input v-model="user.password" type="password" class="input" placeholder="Enter Password" name="password" required />
+      <input v-model="user.password" type="password" class="input" placeholder="Şifre giriniz." name="password"
+        required />
     </div>
     <div class="bottom-btns">
-      <a href="/app/password-recovery" class="forgotPasswordLink">Forgot password? </a>
-      <button @click.prevent="login" type="button">
-        <span tabindex="-1">Log in</span>
+      <a href="/app/password-recovery" class="forgotPasswordLink">Şifreni mi unuttun? </a>
+      <button @click.prevent="login" type="submit">
+        <span tabindex="-1">Giriş Yap</span>
       </button>
     </div>
     <div>
       <p class="loginFooter">
-       Hesabın yok mu? <a href="/app/sign-up">Kayıt Ol</a>
+        Hesabın yok mu? <a href="/app/sign-up">Kayıt Ol</a>
       </p>
     </div>
-  </div>
+  </form>
 </template>
 <style scoped lang="css"></style>
 <script lang="ts" setup>
@@ -44,8 +46,17 @@ const login = async () => {
       await navigateTo("/app");
     })
     .catch((err: { data: NuxtError }) => {
-      console.log(err);
+      const errorText = document.getElementById("errorText");
+      errorText!.innerHTML = err.data.message;
     })
-    .finally(() => {});
+    .finally(() => { });
 };
+
+
+
+//loginFormSubmit
+
+
+
+
 </script>

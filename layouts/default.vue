@@ -17,7 +17,7 @@
 
 <script setup>
 import Navbar from "@/components/navbar/Navbar.vue";
-import "@/layouts/Default.scss";
+import "@/layouts/Main.scss";
 
 
 </script>

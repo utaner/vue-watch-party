@@ -1,7 +1,7 @@
 <template>
   <div class="roomList">
     <div class="room" @click="createRoom">
-      <img src="https://hyperbeam.com/app/img/banner_2.8bc3033b.png" width="16" height="9" />
+      <img src="../../public/assets/image/1.jpg" width="16" height="9" />
       <div class="bottomInfo">
         <div class="roomName">Yeni Oda</div>
       </div>

@@ -1,0 +1,91 @@
+.chat {
+    width: 400px;
+    padding-top: 72px;
+    background: #25272f;
+
+    .textChat {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .messageList {
+            display: flex;
+            flex: 1 1 0;
+            flex-direction: column;
+            padding: 10px 0 26px;
+            overflow-x: hidden;
+
+            .message {
+                padding: 3px 3px 4px 5px;
+                color: #fff;
+                position: relative;
+
+                &:hover {
+                    background-color: hsla(0, 0%, 100%, 0.08);
+                }
+
+                img {
+                    position: absolute;
+                    left: 10px;
+                    z-index: 100;
+                    border-radius: 50%;
+                    width: 44px;
+                    height: 44px;
+                }
+
+                .usernameContainer {
+                    margin-left: 64px;
+
+                    .time {
+                        display: inline-block;
+                        color: rgba(255, 255, 255, 0.671);
+                        font-weight: 500;
+                        font-size: 12px;
+                    }
+
+                    .username {
+                        display: inline;
+                        float: left;
+                        max-width: calc(100% - 52px);
+                        margin-right: 4px;
+                        overflow: hidden;
+                        font-size: 16px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        color: rgb(168, 136, 255);
+                    }
+                }
+
+                .messageContent {
+                    padding-left: 64px;
+
+                    .text {
+                        display: inline-block;
+                        line-height: 1.4;
+                        white-space: pre-wrap;
+                        word-break: break-word;
+                        overflow-wrap: break-word;
+                    }
+                }
+            }
+        }
+
+        .messageInput {
+            background: #161616;
+            height: 100px;
+            padding: 10px;
+
+            textarea {
+                border: 0;
+                background: none;
+                resize: none;
+                outline: 0;
+                overflow: hidden;
+                color: #fff;
+                width: 75%;
+                height: 100%;
+            }
+        }
+    }
+}

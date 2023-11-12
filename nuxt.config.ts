@@ -20,10 +20,13 @@ export default defineNuxtConfig({
       route: "/ws",
       handler: "~/server/socket/index.ts",
     },
-    
+
   ],
 
   nitro: {
     plugins: ["~/server/plugins/mongoDB.ts"],
   },
+  plugins: [
+    "~/plugins/socket.ts",
+  ],
 });

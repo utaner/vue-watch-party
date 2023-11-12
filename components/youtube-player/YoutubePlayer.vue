@@ -5,30 +5,34 @@
   </div>
 </template>
 <style lang="scss">
-    #youtube-player {
-        display: inline-block;
-        position: relative;
-    }
-    #youtube-player.shown::after {
-        content:"";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        cursor: pointer;
-        background-color: black;
-        background-repeat: no-repeat;
-        background-position: center; 
-        background-size: 64px 64px;
-        background-image: url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCI+PHBhdGggZD0iTTI1NSAxMDJWMEwxMjcuNSAxMjcuNSAyNTUgMjU1VjE1M2M4NC4xNSAwIDE1MyA2OC44NSAxNTMgMTUzcy02OC44NSAxNTMtMTUzIDE1My0xNTMtNjguODUtMTUzLTE1M0g1MWMwIDExMi4yIDkxLjggMjA0IDIwNCAyMDRzMjA0LTkxLjggMjA0LTIwNC05MS44LTIwNC0yMDQtMjA0eiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==);
-    }
+#youtube-player {
+  display: inline-block;
+  position: relative;
+}
+
+#youtube-player.shown::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px;
+  background-image: url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCI+PHBhdGggZD0iTTI1NSAxMDJWMEwxMjcuNSAxMjcuNSAyNTUgMjU1VjE1M2M4NC4xNSAwIDE1MyA2OC44NSAxNTMgMTUzcy02OC44NSAxNTMtMTUzIDE1My0xNTMtNjguODUtMTUzLTE1M0g1MWMwIDExMi4yIDkxLjggMjA0IDIwNCAyMDRzMjA0LTkxLjggMjA0LTIwNC05MS44LTIwNC0yMDQtMjA0eiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==);
+}
 </style>
 <script lang="ts">
 import { defineProps } from "vue";
 
 export default {
-  props: { videoId: String },
+  props: {
+    videoId: String,
+
+  },
   data() {
     return {
       videoId: this.videoId || null,
@@ -79,10 +83,10 @@ export default {
             showinfo: 0,
             ecver: 2,
             disablekb: 1,
-            cc_load_policy:1,
-            iv_load_policy:1,
+            cc_load_policy: 1,
+            iv_load_policy: 1,
             playsinline: 1,
-            enablecastapi:1,
+            enablecastapi: 1,
             rel: 0,
 
           },

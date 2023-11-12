@@ -1,21 +1,55 @@
 <template>
   <Modal ref="modal">
-    <h3>HESABIM</h3>
-    <div class="profileContainer">
-      <img
-        alt="Taner#9264"
-        src="data:image/png;base64,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"
-        crossorigin=""
-        style="border-radius: 50%; width: 64px; height: 64px"
-      />
-      <span>Taner</span>
-      <div>
-        <button class="otherButton" type="button">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 16a2 2 0 110 4 2 2 0 010-4zm0-6a2 2 0 110 4 2 2 0 010-4zm0-6a2 2 0 110 4 2 2 0 010-4z" fill="#000"></path>
-          </svg>
-        </button>
+    <div id="contentModal-1" v-if="isShowContentModal1">
+      <h3>HESABIM</h3>
+      <div class="profileContainer">
+        <img alt="{{username}}" :src="'/_nuxt/public/assets/image/profile/' + profileIcon + '.jpg'" crossorigin="" style="border-radius: 50%; width: 64px; height: 64px" />
+        <span>{{ username }}</span>
+        <div>
+          <button class="otherButton" type="button" @click="showContextMenu">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 16a2 2 0 110 4 2 2 0 010-4zm0-6a2 2 0 110 4 2 2 0 010-4zm0-6a2 2 0 110 4 2 2 0 010-4z" fill="#000"></path>
+            </svg>
+          </button>
+
+          <ContextMenu :active="false" ref="contextMenu">
+            <div>
+              <button @click="changeModalContent(2)">
+                <span>Profil Resmi Değiştir</span>
+              </button>
+            </div>
+            <div>
+              <button class="danger">
+                <span>Profil Resmi Kaldır</span>
+              </button>
+            </div>
+          </ContextMenu>
+        </div>
       </div>
+
+      <button class="logoutButton" type="button" @click="logOutHandler()">
+        <span>Çıkış Yap</span>
+      </button>
+    </div>
+    <div id="contentModal-2" v-if="isShowContentModal2">
+      <button class="backButton" type="button" @click="changeModalContent(1)">
+
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+          <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+        </svg>
+      </button>
+      <h3 style="margin-left:30px">PROFİL RESMİ</h3>
+      <div>
+        <span>İkon Seç</span>
+        <div class="iconList">
+          <button class="selectIcon" @click="selectIcon(1)"><img src="/_nuxt/public/assets/image/profile/1.jpg"></button>
+          <button class="selectIcon" @click="selectIcon(2)"><img src="/_nuxt/public/assets/image/profile/2.jpg"></button>
+          <button class="selectIcon" @click="selectIcon(3)"><img src="/_nuxt/public/assets/image/profile/3.jpg"></button>
+
+        </div>
+      </div>
+
+
     </div>
   </Modal>
   <div class="sidebar">
@@ -27,12 +61,7 @@
       </div>
       <div class="bottomNavContainer">
         <button type="button" @click="showModal">
-          <img
-            alt="Taner#9264"
-            src="data:image/png;base64,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"
-            crossorigin=""
-            style="border-radius: 50%; width: 44px; height: 44px"
-          />
+          <img :alt="username" :src="'/_nuxt/public/assets/image/profile/' + profileIcon + '.jpg'" crossorigin="" style="border-radius: 50%; width: 44px; height: 44px" />
         </button>
       </div>
     </div>
@@ -43,13 +72,112 @@
 </template>
 
 <script lang="ts" setup>
-import "@/layouts/Dashboard.scss";
+import "@/layouts/Main.scss";
 import { ref, getCurrentInstance } from "vue";
+import { NuxtError } from "nuxt/app";
 
 const instance = getCurrentInstance();
+
+const username = ref("test#1111");
+const profileIcon = ref(1);
+const isShowContentModal1 = ref(true);
+const isShowContentModal2 = ref(false);
+
+
 
 const showModal = () => {
   const modal = instance.refs.modal;
   modal.open = true;
 };
+
+
+const showContextMenu = () => {
+  const contextMenu = instance.refs.contextMenu;
+  contextMenu.open = true;
+};
+
+useHead({
+  bodyAttrs: {
+    'data-route': 'dashboard',
+  },
+});
+
+
+
+
+const logOutHandler = async () => {
+  //remove cookie
+
+  await $fetch("/api/user/logout", {
+    method: "POST",
+
+  })
+    .then(async () => {
+      navigateTo("/app/login");
+
+    })
+    .catch((err: { data: NuxtError }) => {
+      console.log(err);
+    })
+    .finally(() => { });
+
+};
+
+const getUser = async () => {
+  await $fetch("/api/user/get-user", {
+    method: "POST",
+  })
+    .then(async (res: any) => {
+
+      username.value = res.username;
+      profileIcon.value = res.profileIcon;
+
+
+
+    })
+    .catch((err: { data: NuxtError }) => {
+      console.log(err);
+    })
+    .finally(() => { });
+};
+
+
+const changeModalContent = (value) => {
+  if (value === 1) {
+    isShowContentModal1.value = true;
+    isShowContentModal2.value = false;
+  } else if (value === 2) {
+    isShowContentModal1.value = false;
+    isShowContentModal2.value = true;
+  }
+
+};
+
+getUser();
+
+
+const selectIcon = async (value: any) => {
+  await $fetch("/api/user/change-user", {
+    method: "POST",
+    body: JSON.stringify({
+      profileIcon: value,
+    }),
+  })
+    .then(async (res: any) => {
+      getUser();
+
+
+
+    })
+    .catch((err: { data: NuxtError }) => {
+      console.log(err);
+    })
+    .finally(() => { });
+  profileIcon.value = value;
+  changeModalContent(1);
+
+
+};
+
+
 </script>

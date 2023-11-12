@@ -15,10 +15,11 @@
     color: #fff;
     transform: scale(1);
     -webkit-transform: scale(1);
-    min-width: 500px;
-    min-height: 400px;
-    background: #121212;
+    min-width: 600px;
+    min-height: 500px;
+    background: #1c1c1c;
     border-radius: 10px;
+
     .closeButton {
       position: absolute;
       top: 24px;
@@ -30,6 +31,7 @@
       background: none !important;
       cursor: pointer;
       border: 0;
+
       svg {
         fill: #6b6b6b;
       }
@@ -39,6 +41,7 @@
 
 .modalContent {
   padding: 30px;
+
   h3 {
     color: hsla(0, 0%, 100%, 0.66);
   }
@@ -50,10 +53,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
   span {
     margin-left: 20px;
-    width: 320px;
+    width: 80%;
   }
+
   .otherButton {
     border: 0;
     width: 35px;
@@ -65,15 +70,101 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     svg {
       width: 30px;
       height: 30px;
+
       path {
-        fill: hsla(0,0%,100%,0.66);
+        fill: hsla(0, 0%, 100%, 0.66);
       }
     }
-    &:hover{
-        background-color: hsla(0,0%,100%,0.08);
+
+    &:hover {
+      background-color: hsla(0, 0%, 100%, 0.08);
     }
+  }
+}
+
+
+.logoutButton {
+  display: flex;
+  width: 100%;
+  margin-top: 300px;
+  background: hsla(0, 0%, 100%, 0.08);
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 5px;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background: hsla(0, 0%, 100%, 0.16);
+  }
+
+}
+
+.backButton {
+  position: absolute;
+  left: 24px;
+  z-index: 200;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none !important;
+  cursor: pointer;
+  border: 0;
+
+  svg {
+    fill: #6b6b6b;
+  }
+}
+
+.iconList {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-items: flex-start;
+  width: 100%;
+
+
+  .selectIcon {
+    border-radius: 100%;
+    height: 64px;
+    width: 64px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    margin:0 5px;
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+
+    }
+
+    &:hover {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+      background: #fff;
+
+
+    }
+  }
+}
+
+#contentModal-2 {
+  span {
+    display: block;
+    margin: 20px 0;
+
+    color: #dfdfdf;
   }
 }

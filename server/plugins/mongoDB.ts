@@ -7,9 +7,6 @@ export default async () => {
         // eslint-disable-next-line no-console
         console.log('Successfully connected to DB.')
     } catch (error: unknown) {
-        return createError({
-            statusCode: 500,
-            statusMessage: 'Something went wrong.'
-        })
+        console.log(error)
     }
 }

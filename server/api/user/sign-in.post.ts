@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     if (!user) {
       return createError({
         statusCode: 401,
-        statusMessage: "Invalid email or password",
+        statusMessage: "E-posta veya şifre yanlış!",
       });
     }
 
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     if (!isPasswordCorrect) {
       return createError({
         statusCode: 401,
-        statusMessage: "Invalid email or password",
+        statusMessage: "E-posta veya şifre yanlış!",
       });
     }
     const token = signToken({ uuid: user._id }, "deneme", "30d");
