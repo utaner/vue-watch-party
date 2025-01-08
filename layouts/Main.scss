@@ -569,3 +569,30 @@ body[data-route="dashboard"] {
 ::-webkit-scrollbar-track {
     background: none;
 }
+
+.myRoomsPage {
+    h2 {
+        margin: 25px 25px;
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+        padding: 0 12px 0 0;
+
+        button {
+            height: 38px;
+            margin: 0 6px;
+            white-space: nowrap;
+            background: #ffb464;
+            border: none;
+            border-radius: 6px;
+            padding: 0 25px;
+            font-weight: 600;
+            color: #1e1f23;
+            cursor: pointer;
+        }
+    }
+}

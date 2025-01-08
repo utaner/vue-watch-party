@@ -3,6 +3,8 @@ import { Server } from "socket.io";
 //use mongoose to connect to mongodb
 import userModel from "../models/user.model";
 
+console.log("socket.io server started");
+
 const io = new Server(3001, {
   cors: {
     origin: "*",
@@ -13,13 +15,15 @@ const rooms: {
   [key: string]: {
     users: { [key: string]: { _id: string, username: string, avatar: string, socketID: string } };
     player: { videoID: string; time: number };
+    owner: { _id: string },
+    name: string,
     chat: {
       from: {
         name: string; avatar: string
       };
       message: string;
       type: string,
-      date: Date
+      date: Date,
     }[]
   };
 } = {};
@@ -27,14 +31,18 @@ const rooms: {
 io.on("connection", (socket) => {
   let myRoomId: string;
   let myUserID: string;
-
-  socket.on("createRoom", async (token) => {
+  console.log("a user connected");
+  socket.on("createRoom", async (data) => {
+    console.log(data);
+    const token = data.token;
+    const name = data.roomName;
+    console.log(name);
     const user: any = await userModel.findOne({ token: token });
     if (!user) {
       return;
     }
     const roomId = Math.random().toString(36).substr(2, 9);
-    rooms[roomId] = { users: {}, player: { videoID: "", time: 0 }, chat: [] };
+    rooms[roomId] = { users: {}, player: { videoID: "", time: 0 }, chat: [], owner: { _id: user._id }, name: name };
     socket.emit("roomCreated", roomId);
   });
 
@@ -80,6 +88,14 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("pause", time);
   });
 
+  socket.on('getRoomList', () => {
+    let myRoomList = [];
+    for (let key in rooms) {
+      myRoomList.push({ roomId: key, owner: rooms[key].owner , name: rooms[key].name});
+    }
+    socket.emit('getRoomList', myRoomList);
+  });
+
   socket.on("youtubeSearch", (data) => {
     let term = data.q;
 
@@ -123,7 +139,7 @@ io.on("connection", (socket) => {
     const roomId = myRoomId;
     rooms[roomId].player.videoID = videoID;
     socket.to(roomId).emit("openYoutube", { videoID: videoID, time: 0 });
-    
+
 
   });
 

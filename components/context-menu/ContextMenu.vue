@@ -1,5 +1,5 @@
 <template>
-    <div v-if="active" class="contextMenu">
+    <div v-if="active" class="contextMenu" :style="extraStyle">
         <div class="contextMenuContainer">
 
             <div class="contextMenuContent">
@@ -25,7 +25,11 @@ export default {
             type: Boolean,
             default: false,
 
-        }
+        },
+        extraStyle: {
+            type: String,
+            default: "",
+        },
     },
     methods: {
         show() {

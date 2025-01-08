@@ -1,5 +1,5 @@
 <template>
-  <Modal ref="modal">
+  <Modal :visible="modalVisible" @close="modalVisible = false">
     <div id="contentModal-1" v-if="isShowContentModal1">
       <h3>HESABIM</h3>
       <div class="profileContainer">
@@ -12,7 +12,7 @@
             </svg>
           </button>
 
-          <ContextMenu :active="false" ref="contextMenu">
+          <ContextMenu :active="menuActive" :extraStyle="{ top: '-9px', width: '200px', right: '-50px' }">
             <div>
               <button @click="changeModalContent(2)">
                 <span>Profil Resmi Değiştir</span>
@@ -71,113 +71,108 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import "@/layouts/Main.scss";
-import { ref, getCurrentInstance } from "vue";
-import { NuxtError } from "nuxt/app";
-
-const instance = getCurrentInstance();
-
-const username = ref("test#1111");
-const profileIcon = ref(1);
-const isShowContentModal1 = ref(true);
-const isShowContentModal2 = ref(false);
 
 
 
-const showModal = () => {
-  const modal = instance.refs.modal;
-  modal.open = true;
-};
-
-
-const showContextMenu = () => {
-  const contextMenu = instance.refs.contextMenu;
-  contextMenu.open = true;
-};
-
-useHead({
-  bodyAttrs: {
-    'data-route': 'dashboard',
+export default {
+  name: "Dashboard",
+  components: {},
+  props: {},
+  data() {
+    return {
+      modalVisible: false,
+      isShowContentModal1: true,
+      isShowContentModal2: false,
+      username: "test#1111",
+      profileIcon: 1,
+      menuActive: false,
+    };
   },
-});
+  methods: {
+    //page click
+    showModal() {
+      this.modalVisible = true;
+    },
+    showContextMenu() {
+      this.menuActive = !this.menuActive;
+    },
+    logOutHandler() {
+      //remove cookie
+      $fetch("/api/user/logout", {
+        method: "POST",
+      })
+        .then(async () => {
+          navigateTo("/app/login");
+        })
+        .catch((err: { data: NuxtError }) => {
+          console.log(err);
+        })
+        .finally(() => { });
+    },
+    changeModalContent(value: any) {
+      if (value === 1) {
+        this.isShowContentModal1 = true;
+        this.isShowContentModal2 = false;
+      } else if (value === 2) {
+        this.isShowContentModal1 = false;
+        this.isShowContentModal2 = true;
+      }
+    },
+    selectIcon(value: any) {
+      $fetch("http://localhost:3002/api/user/changeProfileIcon", {
+        method: "POST",
+        body: JSON.stringify({
+          profileIcon: value,
+          token: useCookie("auth").value,
+        }),
+      })
+        .then(async (res: any) => {
+          this.getUser();
+        })
+        .catch((err: { data: NuxtError }) => {
+          console.log(err);
+        })
+        .finally(() => { });
+      this.profileIcon = value;
+      this.changeModalContent(1);
+    },
+    getUser() {
+      $fetch("/api/user/get-user", {
+        method: "POST",
 
-
-
-
-const logOutHandler = async () => {
-  //remove cookie
-
-  await $fetch("/api/user/logout", {
-    method: "POST",
-
-  })
-    .then(async () => {
-      navigateTo("/app/login");
-
-    })
-    .catch((err: { data: NuxtError }) => {
-      console.log(err);
-    })
-    .finally(() => { });
-
+      })
+        .then(async (res: any) => {
+          this.username = res.username;
+          this.profileIcon = res.profileIcon;
+        })
+        .catch((err: { data: NuxtError }) => {
+          console.log(err);
+        })
+        .finally(() => { });
+    },
+  },
+  mounted() {
+    useHead({
+      bodyAttrs: {
+        'data-route': 'dashboard',
+      },
+    });
+    this.getUser();
+    //is page click
+    document.addEventListener("click", (e) => {
+      //eğer tıklanan element context menu ise
+      if (e.target.closest(".otherButton")) {
+        return;
+      }
+      //eğer tıklanan element context menu değilse
+      this.menuActive = false;
+    });
+  },
 };
 
-const getUser = async () => {
-  await $fetch("/api/user/get-user", {
-    method: "POST",
-  })
-    .then(async (res: any) => {
 
-      username.value = res.username;
-      profileIcon.value = res.profileIcon;
-
-
-
-    })
-    .catch((err: { data: NuxtError }) => {
-      console.log(err);
-    })
-    .finally(() => { });
-};
-
-
-const changeModalContent = (value) => {
-  if (value === 1) {
-    isShowContentModal1.value = true;
-    isShowContentModal2.value = false;
-  } else if (value === 2) {
-    isShowContentModal1.value = false;
-    isShowContentModal2.value = true;
-  }
-
-};
-
-getUser();
-
-
-const selectIcon = async (value: any) => {
-  await $fetch("/api/user/change-user", {
-    method: "POST",
-    body: JSON.stringify({
-      profileIcon: value,
-    }),
-  })
-    .then(async (res: any) => {
-      getUser();
-
-
-
-    })
-    .catch((err: { data: NuxtError }) => {
-      console.log(err);
-    })
-    .finally(() => { });
-  profileIcon.value = value;
-  changeModalContent(1);
-
-
-};
 
 
 </script>
