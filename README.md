@@ -1,75 +1,34 @@
-# Nuxt 3 Minimal Starter
+![Demo](public/assets/image/index.gif)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Vue Watch Party
 
-## Setup
+Vue Watch Party is a web application that enables synchronized YouTube video viewing for multiple users. Built with Vue.js and Nuxt 3, it provides a seamless experience for watching videos together in real-time.
 
-Make sure to install the dependencies:
+## Features
 
-```bash
-# npm
-npm install
+- **Synchronized Playback**: Ensures all participants watch the same video simultaneously.
+- **Real-time Chat**: Facilitates communication among users during video sessions.
+- **User Authentication**: Supports secure login and registration processes.
+- **MongoDB Integration**: Stores user data, session information, and chat messages in a secure and scalable database.
 
-# pnpm
-pnpm install
+## Technologies Used
 
-# yarn
-yarn install
+- **Vue.js**: A progressive JavaScript framework for building user interfaces.
+- **Nuxt 3**: A framework for creating Vue.js applications with server-side rendering capabilities.
+- **Socket.IO**: Enables real-time, bidirectional communication between web clients and servers.
+- **YouTube IFrame Player API**: Integrates YouTube videos into the application with control over playback.
+- **MongoDB**: A NoSQL database for managing application data efficiently.
 
-# bun
-bun install
-```
+## Installation
 
-## Development Server
+1. **Clone the repository**:
 
-Start the development server on `http://localhost:3000`:
+   ```bash
+   git clone https://github.com/utaner/vue-watch-party.git
+   cd vue-watch-party
+   
+## Preview
 
-```bash
-# npm
-npm run dev
+![Demo](public/assets/image/screen.png)
 
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+   
